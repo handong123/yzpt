@@ -1,0 +1,21 @@
+logging:
+  level:
+    root: debug
+
+yz:
+  clientId: 8a4856247a251f1ff0
+  clientSecret: d6071fd536ce82cbaf122e5e724deb44
+
+spring:
+  datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/yzws?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+        username: root
+        password: root
+        maximumPoolSize: 20
+        maxIdle: 15
+        minIdle: 5
+        maxWait: 5000
+        maxActive: 200
+        initalSize: 5

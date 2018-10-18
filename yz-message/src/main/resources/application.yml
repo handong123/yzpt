@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: dev
+
+server:
+  contextPath: /
+  port: 8089
+
+mybatis:
+  mapperLocations: classpath*:/**/mybatis/**/*Repository.xml
+  typeAliasesPackage: com.tasly.yzpt.repository.**.entity
+  configLocation: classpath:mybatis-config.xml
