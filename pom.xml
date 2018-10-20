@@ -34,6 +34,7 @@
         <mybatis.spring.boot.version>1.3.2</mybatis.spring.boot.version>
         <lombok.version>1.16.6</lombok.version>
         <jackson.version>2.9.7</jackson.version>
+        <swagger2.version>2.7.0</swagger2.version>
         <spring.boot>2.0.4.RELEASE</spring.boot>
         <start-class>Application</start-class>
     </properties>
@@ -119,6 +120,19 @@
                 <artifactId>pagehelper</artifactId>
                 <version>${mybatis.pagehelper.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger2.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger2.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>org.springframework.boot</groupId>
