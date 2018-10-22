@@ -5,7 +5,6 @@ import com.tasly.yzpt.common.entity.MsgPushEntity;
 import com.tasly.yzpt.service.message.AsyncParserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("yz")
 @EnableAsync
 @Slf4j
 @Api("有赞消息服务相关的api")
@@ -26,7 +25,7 @@ public class PushController {
     private AsyncParserService asyncParserService;
     @ApiOperation(value = "异步消息", notes = "接收有赞异步消息")
     @ApiImplicitParam(name = "entity", value = "消息实体", required = true, dataType = "MsgPushEntity")
-    @RequestMapping(value = "/message", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/message", method = RequestMethod.POST, produces = "application/jsonch;arset=utf-8")
     @ResponseBody
     public Object message(@RequestBody MsgPushEntity entity) {
         log.info("异步调用PushController开始" + Thread.currentThread().getId() + "   " + Thread.currentThread().getName());
@@ -55,7 +54,7 @@ public class PushController {
             return res;
         }
 
-        // asyncParserMessage.asyncParserMessage(entity);
+        asyncParserService.asyncParserMessage(entity);
         /**
          * 返回结果
          */
