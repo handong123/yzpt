@@ -27,12 +27,13 @@ public class PushController {
     @ApiImplicitParam(name = "entity", value = "消息实体", required = true, dataType = "MsgPushEntity")
     @RequestMapping(value = "/message", method = RequestMethod.POST, produces = "application/jsonch;arset=utf-8")
     @ResponseBody
-    public Object message(@RequestBody MsgPushEntity entity) {
+    public String message(@RequestBody MsgPushEntity entity) {
         log.info("异步调用PushController开始" + Thread.currentThread().getId() + "   " + Thread.currentThread().getName());
 
         JSONObject res = new JSONObject();
         res.put("code", 0);
         res.put("msg", "success");
+        String result = JSONObject.toJSONString(res);
 
         /**
          *  判断是否为心跳检查消息
@@ -40,7 +41,7 @@ public class PushController {
          */
 
         if (entity.isTest()) {
-            return res;
+            return result;
         }
 
         /**
@@ -51,7 +52,7 @@ public class PushController {
          * 否则直接返回
          */
         if (entity.getMode() != mode) {
-            return res;
+            return result;
         }
 
         asyncParserService.asyncParserMessage(entity);
@@ -59,7 +60,7 @@ public class PushController {
          * 返回结果
          */
         log.info("异步调用PushController结束" + Thread.currentThread().getId() + "   " + Thread.currentThread().getName());
-        return res;
+        return result;
     }
 
 }

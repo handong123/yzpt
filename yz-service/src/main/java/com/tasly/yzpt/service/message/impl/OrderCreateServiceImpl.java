@@ -33,6 +33,8 @@ public class OrderCreateServiceImpl implements OrderCreateService {
     private TradeAddressRepository tradeAddressRepository;
     @Autowired
     private TradeItemRepository tradeItemRepository;
+    @Autowired
+    private LogisticsServiceImpl logisticsService;
 
     @Override
     @Transactional
@@ -42,9 +44,10 @@ public class OrderCreateServiceImpl implements OrderCreateService {
         YouzanTradeGetResult.StructurizationTradeOrderInfo tradeOrderInfo = youzanTradeGetResult.getFullOrderInfo();
         String tid = tradeOrderInfo.getOrderInfo().getTid();
         saveOrderInfo(tradeOrderInfo.getOrderInfo());
-        saveOrderItem(tradeOrderInfo.getOrders());
+        saveOrderItem(tradeOrderInfo.getOrders(), tid);
         savePayInfo(tradeOrderInfo.getPayInfo(), tid);
         saveAddressInfo(tradeOrderInfo.getAddressInfo(), tid);
+        logisticsService.sendOrderInfo(tid);
     }
 
     /**
@@ -215,11 +218,12 @@ public class OrderCreateServiceImpl implements OrderCreateService {
      * 交易明细
      * @param orders
      */
-    private void saveOrderItem(YouzanTradeGetResult.StructurizationTradeItemDetail[] orders) {
+    private void saveOrderItem(YouzanTradeGetResult.StructurizationTradeItemDetail[] orders, String tid) {
         List<TradeItem> tradeItems = new ArrayList<TradeItem>();
         for(YouzanTradeGetResult.StructurizationTradeItemDetail order : orders) {
             TradeItem tradeItem = new TradeItem();
             CglibBeanUtil.copyProperties(order, tradeItem);
+            tradeItem.setTid(tid);
             tradeItems.add(tradeItem);
         }
         for (TradeItem tradeItem : tradeItems){
