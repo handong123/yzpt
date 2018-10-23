@@ -5,6 +5,7 @@ logging:
 yz:
   clientId: 8a4856247a251f1ff0
   clientSecret: d6071fd536ce82cbaf122e5e724deb44
+  kdtId: 41313792
 
 spring:
   datasource:
@@ -19,3 +20,4 @@ spring:
         maxWait: 5000
         maxActive: 200
         initalSize: 5
+
