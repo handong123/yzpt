@@ -36,6 +36,7 @@
         <jackson.version>2.9.7</jackson.version>
         <swagger2.version>2.7.0</swagger2.version>
         <spring.boot>2.0.4.RELEASE</spring.boot>
+        <yz.jdk.version>2.0.2</yz.jdk.version>
         <start-class>Application</start-class>
     </properties>
 
@@ -81,7 +82,7 @@
             <dependency>
                 <groupId>com.youzan</groupId>
                 <artifactId>jdk</artifactId>
-                <version>2.0.2</version>
+                <version>${yz.jdk.version}</version>
             </dependency>
 
             <dependency>
@@ -133,6 +134,10 @@
                 <version>${swagger2.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+            </dependency>
 
             <dependency>
                 <groupId>org.springframework.boot</groupId>

@@ -66,10 +66,8 @@ public class AsyncParserServiceImpl implements AsyncParserService {
         log.info("------交易类型------" + entity.getType());
         if (TradeEnum.trade_TradeBuyerPay.name().equals(entity.getType())) {
             orderCreateService.createOMSOrder(msg);
-        } else if (TradeRefundEnum.trade_refund_RefundSellerAgree.name().equals(entity.getType())) {
+        } else if (TradeRefundEnum.trade_refund_BuyerCreated.name().equals(entity.getType())) {
             cancelOrderService.cancelOMSOrder(msg);
-        } else if (TradeRefundEnum.trade_refund_RefundSellerAgreeReturnGoods.name().equals(entity.getType())) {
-            cancelOrderService.goodsReturn(msg);
         }
 
         log.info("------end invok asyncParserMessage()------" + Thread.currentThread().getId() + "   " + Thread.currentThread().getName());

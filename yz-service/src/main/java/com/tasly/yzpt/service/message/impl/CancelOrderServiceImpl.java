@@ -21,8 +21,8 @@ public class CancelOrderServiceImpl implements CancelOrderService {
     @Override
     @Transactional
     public void cancelOMSOrder(String msg) {
-        log.info("youzan--->oms cancel order param:" + msg);
-/*        YouzanTradeRefundGetResult result = JSON.parseObject(msg, YouzanTradeRefundGetResult.class);
+/*        log.info("youzan--->oms cancel order param:" + msg);
+        YouzanTradeRefundGetResult result = JSON.parseObject(msg, YouzanTradeRefundGetResult.class);
         TaslyOrder taslyOrder = taslyOrderService.getTaslyOrderByOrgOrderId(result.getTid());
         if (taslyOrder == null) {
             log.info("youzan--->order does not exist");

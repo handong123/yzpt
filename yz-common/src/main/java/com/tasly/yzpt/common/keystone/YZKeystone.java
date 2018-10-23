@@ -6,4 +6,5 @@ import lombok.Data;
 public class YZKeystone {
     public String clientId;
     public String clientSecret;
+    public String kdtId;
 }
