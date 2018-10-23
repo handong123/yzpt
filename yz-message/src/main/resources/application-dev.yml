@@ -1,6 +1,6 @@
 logging:
   level:
-    root: debug
+    root: warn
 
 yz:
   clientId: 8a4856247a251f1ff0
@@ -20,4 +20,8 @@ spring:
         maxWait: 5000
         maxActive: 200
         initalSize: 5
+  redis:
+    port: 6379
+    host: 10.8.3.150
+    database: 0
 

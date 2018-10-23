@@ -3,8 +3,15 @@ spring:
     active: dev
 
 server:
-  contextPath: /
-  port: 8089
+  port: 8099
+  servlet:
+    context-path: /
+
+management:
+  port: 8088
+  contextPath: /manage
+  security:
+    enabled: false
 
 mybatis:
   mapperLocations: classpath*:/**/mybatis/**/*Repository.xml
