@@ -10,5 +10,6 @@ public class OrderToWmsEventListener {
     @Async
     public void listener(OrderToWmsEvent event) {
         //下发WMS
+        //创建数据trade-wms 默认0 等到wms返回信息更新为1
     }
 }
