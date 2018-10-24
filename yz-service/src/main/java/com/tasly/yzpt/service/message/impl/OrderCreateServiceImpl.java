@@ -11,15 +11,17 @@ import com.tasly.yzpt.repository.message.entity.TradeAddress;
 import com.tasly.yzpt.repository.message.entity.TradeInfo;
 import com.tasly.yzpt.repository.message.entity.TradeItem;
 import com.tasly.yzpt.repository.message.entity.TradePay;
+import com.tasly.yzpt.service.event.OrderToWmsPrepareEvent;
 import com.tasly.yzpt.service.message.OrderCreateService;
 import com.youzan.open.sdk.gen.v4_0_0.model.YouzanTradeGetResult;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -34,7 +36,7 @@ public class OrderCreateServiceImpl implements OrderCreateService {
     @Autowired
     private TradeItemRepository tradeItemRepository;
     @Autowired
-    private LogisticsServiceImpl logisticsService;
+    private ApplicationContext applicationContext;
 
     @Override
     @Transactional
@@ -47,11 +49,12 @@ public class OrderCreateServiceImpl implements OrderCreateService {
         saveOrderItem(tradeOrderInfo.getOrders(), tid);
         savePayInfo(tradeOrderInfo.getPayInfo(), tid);
         saveAddressInfo(tradeOrderInfo.getAddressInfo(), tid);
-        logisticsService.sendOrderInfo(tid);
+        applicationContext.publishEvent(new OrderToWmsPrepareEvent(this, tid));
     }
 
     /**
      * 交易基础信息
+     *
      * @param orderInfo
      */
     private void saveOrderInfo(YouzanTradeGetResult.StructurizationOrderInfoDetail orderInfo) {
@@ -143,6 +146,7 @@ public class OrderCreateServiceImpl implements OrderCreateService {
 
     /**
      * 订单支付信息
+     *
      * @param payInfo
      */
     private void savePayInfo(YouzanTradeGetResult.StructurizationTradePayInfoDetail payInfo, String tid) {
@@ -216,17 +220,18 @@ public class OrderCreateServiceImpl implements OrderCreateService {
 
     /**
      * 交易明细
+     *
      * @param orders
      */
     private void saveOrderItem(YouzanTradeGetResult.StructurizationTradeItemDetail[] orders, String tid) {
         List<TradeItem> tradeItems = new ArrayList<TradeItem>();
-        for(YouzanTradeGetResult.StructurizationTradeItemDetail order : orders) {
+        for (YouzanTradeGetResult.StructurizationTradeItemDetail order : orders) {
             TradeItem tradeItem = new TradeItem();
             CglibBeanUtil.copyProperties(order, tradeItem);
             tradeItem.setTid(tid);
             tradeItems.add(tradeItem);
         }
-        for (TradeItem tradeItem : tradeItems){
+        for (TradeItem tradeItem : tradeItems) {
             tradeItemRepository.insert(tradeItem);
         }
     }

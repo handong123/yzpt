@@ -28,7 +28,7 @@ public class OrderConvertor {
         for (TradeItem tradeItem : tradeItems){
             OrderItemEntity orderItemEntity = new OrderItemEntity();
             orderItemEntity.setHanghao(tradeItem.getOuterItemId());
-            orderItemEntity.setShangpId(GeneratorUtil.getFormatted(Long.valueOf(tradeItem.getOuterSkuId()), 18, "", ""));
+            orderItemEntity.setShangpId(GeneratorUtil.getFormatted(Long.valueOf(tradeItem.getOuterItemId()), 18, "", ""));
             orderItemEntity.setCarrierId("YUNDA");
             orderItemEntity.setCarrierName("韵达快递");
 

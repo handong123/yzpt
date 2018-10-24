@@ -1,6 +1,6 @@
 logging:
   level:
-    root: warn
+    root: info
 
 yz:
   clientId: 8a4856247a251f1ff0

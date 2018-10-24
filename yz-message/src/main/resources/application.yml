@@ -3,7 +3,7 @@ spring:
     active: dev
 
 server:
-  port: 8099
+  port: 8089
   servlet:
     context-path: /
 

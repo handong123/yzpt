@@ -1,7 +1,8 @@
 package com.tasly.yzpt.service.message.entity;
 
-import java.util.List;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class OrderEntity {
