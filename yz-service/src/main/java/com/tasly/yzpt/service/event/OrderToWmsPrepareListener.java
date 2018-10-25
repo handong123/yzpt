@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@Slf4j
 public class OrderToWmsPrepareListener {
     @Autowired
     private TradeInfoRepository tradeInfoRepository;
@@ -33,7 +34,7 @@ public class OrderToWmsPrepareListener {
     @EventListener
     @Async
     public void listener(OrderToWmsPrepareEvent event) {
-        //Log.info("------订单创建后，下发WMS前准备事件监听------" + event.getTid());
+        log.info("------订单创建后，下发WMS前准备事件监听------" + event.getTid());
         String tid = event.getTid();
         TradeInfo tradeInfo = tradeInfoRepository.selectByPrimaryKey(tid);
         // 行项目
