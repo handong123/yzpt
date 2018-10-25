@@ -1,6 +1,14 @@
 package com.tasly.yzpt.service.wms;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.tasly.yzpt.service.message.entity.OrderEntity;
+import com.tasly.yzpt.service.message.entity.OrderItemEntity;
+import com.tasly.yzpt.service.wms.bo.WMSSendOrder;
+import com.tasly.yzpt.service.wms.bo.WMSSendOrderItem;
 import com.tasly.yzpt.service.wms.send.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
@@ -8,7 +16,9 @@ import org.apache.cxf.interceptor.LoggingOutInterceptor;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -82,8 +92,43 @@ public class WMSSendWebserviceUtil {
      * 对象转换成发送WMS的方法
      * @return
      */
-    public String packageWMSXmlString(Object object){
-        return "123";
+    static public String packageWMSXmlString(OrderEntity orderEntity) throws JsonProcessingException {
+        WMSSendOrder wmsSendOrder = new WMSSendOrder();
+        wmsSendOrder.setDANJ_NO(orderEntity.getDanjNo());
+        wmsSendOrder.setWLZX_CODE(orderEntity.getWlzxCode());
+        wmsSendOrder.setHUOZ_ID(orderEntity.getHuozId());
+        wmsSendOrder.setDANW_ID(orderEntity.getDanwId());
+        wmsSendOrder.setRIQI_DATE(orderEntity.getRiqiDate());
+        wmsSendOrder.setTIH_WAY(orderEntity.getTihWay());
+        wmsSendOrder.setXIAOS_TYPE(orderEntity.getXiaosType());
+        wmsSendOrder.setFAH_TYPE(orderEntity.getFahType());
+        wmsSendOrder.setNOTE(orderEntity.getNote());
+        wmsSendOrder.setCKD_TYPE(orderEntity.getCkdType());
+        wmsSendOrder.setTIAOM_NUM(orderEntity.getTiaomNum());
+        wmsSendOrder.setADDRESS(orderEntity.getAddress());
+        wmsSendOrder.setSHOUH_PHONE(orderEntity.getShouh_phone());
+        wmsSendOrder.setSHOUH_STAFF(orderEntity.getShouhStaff());
+        wmsSendOrder.setPOSTCODE(orderEntity.getPostcode());
+        List<WMSSendOrderItem> items = new ArrayList<WMSSendOrderItem>();
+        for(OrderItemEntity orderItemEntity: orderEntity.getOrderItemEntities()){
+            WMSSendOrderItem wmsSendOrderItem = new WMSSendOrderItem();
+            wmsSendOrderItem.setHANGHAO(orderItemEntity.getHanghao());
+            wmsSendOrderItem.setSHANGP_ID(orderItemEntity.getShangpId());
+            wmsSendOrderItem.setNUM(orderItemEntity.getNum());
+            items.add(wmsSendOrderItem);
+        }
+        wmsSendOrder.getItemList().setItems(items);
+        XmlMapper xmlMapper = new XmlMapper();
+        xmlMapper.setDefaultUseWrapper(false);
+        xmlMapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);
+        xmlMapper.enable(MapperFeature.USE_STD_BEAN_NAMING);
+        String orderXmlString = xmlMapper.writeValueAsString(wmsSendOrder);
+        orderXmlString = orderXmlString.replace("<root>", "");
+        orderXmlString = orderXmlString.replace("</root>", "");
+        StringBuilder stringBuilder = new StringBuilder("<ARRAYOFT_CK_KPD><T_CK_KPD>");
+        stringBuilder.append(orderXmlString)
+                .append("</T_CK_KPD></ARRAYOFT_CK_KPD>");
+        return stringBuilder.toString();
     }
 
 }

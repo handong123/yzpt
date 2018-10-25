@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration >
-    <classPathEntry location="C:\Users\handong\.m2\repository\mysql\mysql-connector-java\5.1.40\mysql-connector-java-5.1.40.jar" />
+    <classPathEntry location="/Users/Talsy_xiashengxin/.m2/repository/mysql/mysql-connector-java/5.1.40/mysql-connector-java-5.1.40.jar" />
     <context id="context1" >
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/yzws?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true" userId="root" password="root" />
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://rm-2zejgb610oi5v516v4o.mysql.rds.aliyuncs.com:3306/yzws?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true" userId="jcccms" password="1234554321Aly" />
         <javaModelGenerator targetPackage="com.tasly.yzpt.repository.message.entity" targetProject="MAVEN"  />
         <sqlMapGenerator targetPackage="generated" targetProject="MAVEN"  />
         <javaClientGenerator targetPackage="com.tasly.yzpt.repository.message" targetProject="MAVEN"  type="XMLMAPPER"/>
-
-        <table schema="" tableName="trade_info" domainObjectName="TradeInfo" mapperName="TradeInfoRepository">
-        </table>
-        <table schema="" tableName="trade_address" domainObjectName="TradeAddress" mapperName="TradeAddressRepository">
-        </table>
-        <table schema="" tableName="trade_item" domainObjectName="TradeItem" mapperName="TradeItemRepository">
-        </table>
-        <table schema="" tableName="trade_pay" domainObjectName="TradePay" mapperName="TradePayRepository">
-    </table>
+        <!--<table schema="" tableName="trade_info" domainObjectName="TradeInfo" mapperName="TradeInfoRepository">-->
+        <!--</table>-->
+        <!--<table schema="" tableName="trade_address" domainObjectName="TradeAddress" mapperName="TradeAddressRepository">-->
+        <!--</table>-->
+        <!--<table schema="" tableName="trade_item" domainObjectName="TradeItem" mapperName="TradeItemRepository">-->
+        <!--</table>-->
+        <!--<table schema="" tableName="trade_pay" domainObjectName="TradePay" mapperName="TradePayRepository">-->
+        <!--</table>-->
         <table schema="" tableName="trade_wms" domainObjectName="TradeWms" mapperName="TradeWmsRepository">
         </table>
     </context>
