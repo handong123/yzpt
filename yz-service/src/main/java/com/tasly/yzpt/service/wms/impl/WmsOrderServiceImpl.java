@@ -1,5 +1,6 @@
 package com.tasly.yzpt.service.wms.impl;
 
+import com.tasly.yzpt.common.yzEnum.SendWmsEnum;
 import com.tasly.yzpt.repository.message.TradeWmsRepository;
 import com.tasly.yzpt.repository.message.entity.TradeWms;
 import com.tasly.yzpt.service.message.entity.OrderEntity;
@@ -37,8 +38,8 @@ public class WmsOrderServiceImpl implements WmsOrderService {
             soap.receiveCkkpd(infdata);
             log.info("保存WMS参数[{}]",infdatastr);
             TradeWms tradeWms = new TradeWms();
-            tradeWms.setMessage(infdatastr);
-            tradeWms.setStatus(Boolean.FALSE);
+            tradeWms.setTid(orderEntity.getDanjNo());
+            tradeWms.setStatus(SendWmsEnum.SEND_WMS.getStatus());
             tradeWms.setSendTime(new Date());
             tradeWmsRepository.insert(tradeWms);
         }catch (Exception e){

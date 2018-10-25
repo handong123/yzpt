@@ -45,7 +45,5 @@ public class OrderToWmsPrepareListener {
         OrderConvertor orderConvertor = new OrderConvertor();
         OrderEntity orderEntity = orderConvertor.toBean(tradeInfo, tradeItems, tradeAddress);
         applicationContext.publishEvent(new OrderToWmsEvent(this, orderEntity));
-
-
     }
 }
