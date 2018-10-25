@@ -9,6 +9,7 @@ import com.tasly.yzpt.repository.message.entity.TradeItem;
 import com.tasly.yzpt.repository.message.entity.TradeItemExample;
 import com.tasly.yzpt.service.message.convert.OrderConvertor;
 import com.tasly.yzpt.service.message.entity.OrderEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.EventListener;
@@ -28,10 +29,11 @@ public class OrderToWmsPrepareListener {
     @Autowired
     private ApplicationContext applicationContext;
 
+
     @EventListener
     @Async
     public void listener(OrderToWmsPrepareEvent event) {
-        System.out.println("------订单创建后，下发WMS前准备事件监听------" + event.getTid());
+        //Log.info("------订单创建后，下发WMS前准备事件监听------" + event.getTid());
         String tid = event.getTid();
         TradeInfo tradeInfo = tradeInfoRepository.selectByPrimaryKey(tid);
         // 行项目
@@ -43,5 +45,7 @@ public class OrderToWmsPrepareListener {
         OrderConvertor orderConvertor = new OrderConvertor();
         OrderEntity orderEntity = orderConvertor.toBean(tradeInfo, tradeItems, tradeAddress);
         applicationContext.publishEvent(new OrderToWmsEvent(this, orderEntity));
+
+
     }
 }
