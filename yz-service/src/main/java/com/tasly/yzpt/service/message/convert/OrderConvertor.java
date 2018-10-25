@@ -46,7 +46,7 @@ public class OrderConvertor {
             orderItemEntity.setNum(tradeItem.getNum().toString());
             orderItemEntity.setCarrierId(ExpressEnum.YUNDA.getYzExpressName());
             orderItemEntity.setCarrierName("韵达快递");
-
+            orderItemEntity.setZYunFei("0");
             orderItemEntities.add(orderItemEntity);
         }
         bean.setOrderItemEntities(orderItemEntities);
@@ -55,9 +55,9 @@ public class OrderConvertor {
         //市
         bean.setEccShiptoCity(tradeAddress.getDeliveryCity());
         //区
-        bean.setEccShiptoDistrict(tradeAddress.getDeliveryAddress());
-
-        bean.setAddress(tradeAddress.getDeliveryProvince() + " " + tradeAddress.getDeliveryCity() + " " + tradeAddress.getDeliveryAddress());
+        bean.setEccShiptoDistrict(tradeAddress.getDeliveryDistrict());
+        //详细地址
+        bean.setAddress(tradeAddress.getDeliveryAddress());
         //收货电话
         bean.setShouh_phone(tradeAddress.getReceiverTel());
         //收货人姓名
