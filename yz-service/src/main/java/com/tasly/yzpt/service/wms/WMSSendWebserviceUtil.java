@@ -36,7 +36,7 @@ public class WMSSendWebserviceUtil {
         return (T) o;
     }
 
-    public static INFDATA packageSoapRequest(String data){
+    public static INFDATA packageSoapRequest(String data) {
         INFDATA infdata = new INFDATA();
         infdata.setBASEINFO(getBaseInfo());
         infdata.setMESSAGE(getMessage(data));
@@ -66,44 +66,59 @@ public class WMSSendWebserviceUtil {
 
     /**
      * WMS销售出库订单下传方法出库
+     *
      * @param url
      * @param data
      */
-    public static void receiveCkkpd(String url,String data){
+    public static void receiveCkkpd(String url, String data) {
         WmsCkkpdSoap soap = getWebserviceClient(url, WmsCkkpdSoap.class);
         INFDATA infdata = packageSoapRequest(data);
-        log.info("发送wms参数INFDATA[{}]",infdata);
+        log.info("发送wms参数INFDATA[{}]", infdata);
         soap.receiveCkkpd(infdata);
     }
 
     /**
      * WMS销售出库订单取消下传方法
+     *
      * @param url
      * @param data
      */
-    public static void receiveCkdel(String url,String data){
+    public static void receiveCkdel(String url, String data) {
         WmsCkkpdSoap soap = getWebserviceClient(url, WmsCkkpdSoap.class);
         INFDATA infdata = packageSoapRequest(data);
-        log.info("发送wms参数INFDATA[{}]",infdata);
+        log.info("发送wms参数INFDATA[{}]", infdata);
         soap.receiveCkkpd(infdata);
     }
 
     /**
      * 对象转换成发送WMS的方法
+     *
      * @return
      */
     static public String packageWMSXmlString(OrderEntity orderEntity) throws JsonProcessingException {
+        log.info("------接收OrderEntity对象内容------" + orderEntity.toString());
         WMSSendOrder wmsSendOrder = new WMSSendOrder();
+        //单据编号
         wmsSendOrder.setDANJ_NO(orderEntity.getDanjNo());
+        //物流中心编码 固定值1201 天津
         wmsSendOrder.setWLZX_CODE(orderEntity.getWlzxCode());
+        //货主内码  固定值 1017
         wmsSendOrder.setHUOZ_ID(orderEntity.getHuozId());
+        //单位内码 固定值 Z9999999999
         wmsSendOrder.setDANW_ID(orderEntity.getDanwId());
+        //单据日期 订单创建日期
         wmsSendOrder.setRIQI_DATE(orderEntity.getRiqiDate());
+        //提货方式  11 快递方式
         wmsSendOrder.setTIH_WAY(orderEntity.getTihWay());
+        //销售类型 1 销售
         wmsSendOrder.setXIAOS_TYPE(orderEntity.getXiaosType());
+        //发货类型 3
         wmsSendOrder.setFAH_TYPE(orderEntity.getFahType());
+        //备注
         wmsSendOrder.setNOTE(orderEntity.getNote());
+        //出库复核单打印要求  固定值 2
         wmsSendOrder.setCKD_TYPE(orderEntity.getCkdType());
+        //订单行数
         wmsSendOrder.setTIAOM_NUM(orderEntity.getTiaomNum());
         wmsSendOrder.setECC_SHIPTO_REGION(orderEntity.getEccShiptoRegion());
         wmsSendOrder.setECC_SHIPTO_CITY(orderEntity.getEccShiptoCity());
@@ -113,7 +128,7 @@ public class WMSSendWebserviceUtil {
         wmsSendOrder.setSHOUH_STAFF(orderEntity.getShouhStaff());
         wmsSendOrder.setPOSTCODE(orderEntity.getPostcode());
         List<WMSSendOrderItem> items = new ArrayList<WMSSendOrderItem>();
-        for(OrderItemEntity orderItemEntity: orderEntity.getOrderItemEntities()){
+        for (OrderItemEntity orderItemEntity : orderEntity.getOrderItemEntities()) {
             WMSSendOrderItem wmsSendOrderItem = new WMSSendOrderItem();
             wmsSendOrderItem.setHANGHAO(orderItemEntity.getHanghao());
             wmsSendOrderItem.setNUM(orderItemEntity.getNum());
@@ -134,7 +149,9 @@ public class WMSSendWebserviceUtil {
         StringBuilder stringBuilder = new StringBuilder("<ARRAYOFT_CK_KPD><T_CK_KPD>");
         stringBuilder.append(orderXmlString)
                 .append("</T_CK_KPD></ARRAYOFT_CK_KPD>");
-        return stringBuilder.toString();
+        String str = stringBuilder.toString();
+        log.info("------发送WMS拼接报文------" + str);
+        return str;
     }
 
 }

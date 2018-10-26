@@ -1,10 +1,7 @@
 package com.tasly.yzpt.service.event;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.tasly.yzpt.service.wms.WMSSendWebserviceUtil;
 import com.tasly.yzpt.service.wms.WmsOrderService;
-import com.tasly.yzpt.service.wms.send.INFDATA;
-import com.tasly.yzpt.service.wms.send.WmsCkkpdSoap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -22,6 +19,7 @@ public class OrderToWmsEventListener {
     @EventListener
     @Async
     public void listener(OrderToWmsEvent event) throws JsonProcessingException {
+        log.info("------订单下发WMS事件监听------" + event.getOrderEntity().toString());
         wmsOrderService.sendToWmsOrder(event.getOrderEntity());
     }
 

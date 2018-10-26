@@ -11,4 +11,5 @@ public class OrderItemEntity {
   String carrierId;
   String carrierName;
   String saleorderNumber;
+  String zYunFei;
 }
