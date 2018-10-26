@@ -2,14 +2,8 @@ package com.tasly.yzpt.service.message.impl;
 
 
 import com.alibaba.fastjson.JSON;
-import com.tasly.yzpt.repository.message.TradeAddressRepository;
-import com.tasly.yzpt.repository.message.TradeInfoRepository;
-import com.tasly.yzpt.repository.message.TradeItemRepository;
-import com.tasly.yzpt.repository.message.TradePayRepository;
-import com.tasly.yzpt.repository.message.entity.TradeAddress;
-import com.tasly.yzpt.repository.message.entity.TradeInfo;
-import com.tasly.yzpt.repository.message.entity.TradeItem;
-import com.tasly.yzpt.repository.message.entity.TradePay;
+import com.tasly.yzpt.repository.message.*;
+import com.tasly.yzpt.repository.message.entity.*;
 import com.tasly.yzpt.service.event.OrderToWmsPrepareEvent;
 import com.tasly.yzpt.service.message.OrderCreateService;
 import com.youzan.open.sdk.gen.v4_0_0.model.YouzanTradeGetResult;
@@ -37,6 +31,8 @@ public class OrderCreateServiceImpl implements OrderCreateService {
     @Autowired
     private TradeItemRepository tradeItemRepository;
     @Autowired
+    private TidWidRepository tidWidRepository;
+    @Autowired
     private ApplicationContext applicationContext;
 
     @Override
@@ -50,7 +46,17 @@ public class OrderCreateServiceImpl implements OrderCreateService {
         saveOrderItem(tradeOrderInfo.getOrders(), tid);
         savePayInfo(tradeOrderInfo.getPayInfo(), tid);
         saveAddressInfo(tradeOrderInfo.getAddressInfo(), tid);
+        saveWid(tid);
         applicationContext.publishEvent(new OrderToWmsPrepareEvent(this, tid));
+    }
+
+    /**
+     * tid_wid
+     */
+    private void saveWid(String tid) {
+        TidWid tidWid = new TidWid();
+        tidWid.setTid(tid);
+        tidWidRepository.insertSelective(tidWid);
     }
 
     /**

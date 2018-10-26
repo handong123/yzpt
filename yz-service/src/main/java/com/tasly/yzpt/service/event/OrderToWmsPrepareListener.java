@@ -1,13 +1,13 @@
 package com.tasly.yzpt.service.event;
 
+import com.tasly.yzpt.common.util.GeneratorUtil;
+import com.tasly.yzpt.repository.message.TidWidRepository;
 import com.tasly.yzpt.repository.message.TradeAddressRepository;
 import com.tasly.yzpt.repository.message.TradeInfoRepository;
 import com.tasly.yzpt.repository.message.TradeItemRepository;
-import com.tasly.yzpt.repository.message.entity.TradeAddress;
-import com.tasly.yzpt.repository.message.entity.TradeInfo;
-import com.tasly.yzpt.repository.message.entity.TradeItem;
-import com.tasly.yzpt.repository.message.entity.TradeItemExample;
+import com.tasly.yzpt.repository.message.entity.*;
 import com.tasly.yzpt.service.message.convert.OrderConvertor;
+import com.tasly.yzpt.service.message.entity.OrderConvertorEntity;
 import com.tasly.yzpt.service.message.entity.OrderEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,8 @@ public class OrderToWmsPrepareListener {
     @Autowired
     private TradeItemRepository tradeItemRepository;
     @Autowired
+    private TidWidRepository tidWidRepository;
+    @Autowired
     private ApplicationContext applicationContext;
 
 
@@ -43,8 +45,17 @@ public class OrderToWmsPrepareListener {
         List<TradeItem> tradeItems = tradeItemRepository.selectByExample(tradeItemExample);
         // 地址
         TradeAddress tradeAddress = tradeAddressRepository.selectByPrimaryKey(tid);
+        //ID转换
+        TidWidExample tidWidExample = new TidWidExample();
+        tidWidExample.createCriteria().andTidEqualTo(tid);
+        String wid = "YZ"+GeneratorUtil.getFormatted(tidWidRepository.selectByExample(tidWidExample).get(0).getWid().longValue(),10,"","") ;
         OrderConvertor orderConvertor = new OrderConvertor();
-        OrderEntity orderEntity = orderConvertor.toBean(tradeInfo, tradeItems, tradeAddress);
+        OrderConvertorEntity entity = new OrderConvertorEntity();
+        entity.setTradeAddress(tradeAddress);
+        entity.setTradeInfo(tradeInfo);
+        entity.setTradeItems(tradeItems);
+        entity.setWid(wid);
+        OrderEntity orderEntity = orderConvertor.toBean(entity);
         applicationContext.publishEvent(new OrderToWmsEvent(this, orderEntity));
     }
 }
