@@ -105,6 +105,9 @@ public class WMSSendWebserviceUtil {
         wmsSendOrder.setNOTE(orderEntity.getNote());
         wmsSendOrder.setCKD_TYPE(orderEntity.getCkdType());
         wmsSendOrder.setTIAOM_NUM(orderEntity.getTiaomNum());
+        wmsSendOrder.setECC_SHIPTO_REGION(orderEntity.getEccShiptoRegion());
+        wmsSendOrder.setECC_SHIPTO_CITY(orderEntity.getEccShiptoCity());
+        wmsSendOrder.setECC_SHIPTO_DISTRICT(orderEntity.getEccShiptoDistrict());
         wmsSendOrder.setADDRESS(orderEntity.getAddress());
         wmsSendOrder.setSHOUH_PHONE(orderEntity.getShouh_phone());
         wmsSendOrder.setSHOUH_STAFF(orderEntity.getShouhStaff());
@@ -113,8 +116,11 @@ public class WMSSendWebserviceUtil {
         for(OrderItemEntity orderItemEntity: orderEntity.getOrderItemEntities()){
             WMSSendOrderItem wmsSendOrderItem = new WMSSendOrderItem();
             wmsSendOrderItem.setHANGHAO(orderItemEntity.getHanghao());
-            wmsSendOrderItem.setSHANGP_ID(orderItemEntity.getShangpId());
             wmsSendOrderItem.setNUM(orderItemEntity.getNum());
+            wmsSendOrderItem.setCARRIER_ID(orderItemEntity.getCarrierId());
+            wmsSendOrderItem.setCARRIER_NAME(orderItemEntity.getCarrierName());
+            wmsSendOrderItem.setSALEORDER_NUMBER(orderItemEntity.getSaleorderNumber());
+            wmsSendOrderItem.setSHANGP_ID(orderItemEntity.getShangpId());
             items.add(wmsSendOrderItem);
         }
         wmsSendOrder.getItemList().setItems(items);
