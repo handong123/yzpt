@@ -4,8 +4,10 @@ import com.google.common.collect.Lists;
 import com.tasly.yzpt.common.util.JsonUtil;
 import com.tasly.yzpt.service.wms.send.INFDATA;
 import com.tasly.yzpt.webservices.ProductService;
+import com.tasly.yzpt.webservices.dto.CANNELDATA;
 import com.tasly.yzpt.webservices.dto.DATA;
 import com.tasly.yzpt.webservices.dto.RETDATA;
+import com.tasly.yzpt.webservices.dto.SENDDATA;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,18 @@ public class ProductServiceImpl implements ProductService {
         RETDATA retdata = new RETDATA();
         retdataList.add(retdata);
         result.setRetdata(retdataList);
+
+    }
+
+    @Override
+    public void sendBackFromWMS(@WebParam(name = "SENDDATA") SENDDATA SENDDATA) {
+        log.info("WMS推送发货商品主数据:" + JsonUtil.bean2Json(SENDDATA));
+
+    }
+
+    @Override
+    public void cannelBackFromWMS(@WebParam(name = "CANNELDATA") CANNELDATA CANNELDATA) {
+        log.info("WMS推送取消商品主数据:" + JsonUtil.bean2Json(CANNELDATA));
 
     }
 }
