@@ -46,4 +46,14 @@ public class WmsOrderServiceImpl implements WmsOrderService {
             log.error("订单下发wms失败", e);
         }
     }
+
+    @Override
+    public void cancelToWmsOrder(Object object) {
+
+    }
+
+    @Override
+    public void sendCancelToWmsOrder(Object object) {
+
+    }
 }

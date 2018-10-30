@@ -8,6 +8,22 @@ import com.tasly.yzpt.service.message.entity.OrderEntity;
 
 public interface WmsOrderService {
 
+    /**
+     * 订单下传
+     * @param orderEntity
+     */
     void sendToWmsOrder(OrderEntity orderEntity);
+
+    /**
+     * 订单取消(没发货)
+     * @param object
+     */
+    void cancelToWmsOrder(Object object);
+
+    /**
+     * 订单取消(已经发货)
+     * @param object
+     */
+    void sendCancelToWmsOrder(Object object);
 
 }
