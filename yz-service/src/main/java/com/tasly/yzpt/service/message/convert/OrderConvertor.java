@@ -3,6 +3,7 @@ package com.tasly.yzpt.service.message.convert;
 import com.tasly.yzpt.common.util.DateUtil;
 import com.tasly.yzpt.common.util.GeneratorUtil;
 import com.tasly.yzpt.common.yzEnum.ExpressEnum;
+import com.tasly.yzpt.repository.message.entity.OidHanghao;
 import com.tasly.yzpt.repository.message.entity.TradeAddress;
 import com.tasly.yzpt.repository.message.entity.TradeInfo;
 import com.tasly.yzpt.repository.message.entity.TradeItem;
@@ -13,15 +14,17 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class OrderConvertor {
 
-    public OrderEntity toBean(OrderConvertorEntity entity) {
+    public static OrderEntity toBean(OrderConvertorEntity entity) {
         TradeInfo tradeInfo = entity.getTradeInfo();
         List<TradeItem> tradeItems = entity.getTradeItems();
         TradeAddress tradeAddress = entity.getTradeAddress();
         String wid = entity.getWid();
-
+        Map<String, String> hanghaoMap = entity.getOidHanghaos().stream().collect(Collectors.toMap(OidHanghao::getOid, OidHanghao::getHanghao));
         OrderEntity bean = new OrderEntity();
         //单据编号 wid   因物流编号长度限制  所以转换为YZ0000000001格式 tid 保存到note中
         bean.setDanjNo(wid);
@@ -45,17 +48,16 @@ public class OrderConvertor {
         bean.setCkdType("2");
         bean.setTiaomNum(String.valueOf(tradeItems.size()));
         List<OrderItemEntity> orderItemEntities = new ArrayList<OrderItemEntity>();
-        int num = 1;
+
         for (TradeItem tradeItem : tradeItems) {
             OrderItemEntity orderItemEntity = new OrderItemEntity();
-            orderItemEntity.setHanghao(String.valueOf(num));
+            orderItemEntity.setHanghao(hanghaoMap.get(tradeItem.getOid()));
             orderItemEntity.setShangpId(GeneratorUtil.getFormatted(Long.valueOf(tradeItem.getOuterItemId()), 18, "", ""));
             orderItemEntity.setNum(tradeItem.getNum().toString());
             orderItemEntity.setCarrierId(ExpressEnum.YUNDA.getYzExpressName());
             orderItemEntity.setCarrierName("韵达快递");
             orderItemEntity.setZYunFei("0");
             orderItemEntities.add(orderItemEntity);
-            num = num + 1;
         }
         bean.setOrderItemEntities(orderItemEntities);
         //省

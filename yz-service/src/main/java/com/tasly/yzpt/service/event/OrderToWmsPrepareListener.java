@@ -1,10 +1,8 @@
 package com.tasly.yzpt.service.event;
 
 import com.tasly.yzpt.common.util.GeneratorUtil;
-import com.tasly.yzpt.repository.message.TidWidRepository;
-import com.tasly.yzpt.repository.message.TradeAddressRepository;
-import com.tasly.yzpt.repository.message.TradeInfoRepository;
-import com.tasly.yzpt.repository.message.TradeItemRepository;
+import com.tasly.yzpt.common.util.WidUtil;
+import com.tasly.yzpt.repository.message.*;
 import com.tasly.yzpt.repository.message.entity.*;
 import com.tasly.yzpt.service.message.convert.OrderConvertor;
 import com.tasly.yzpt.service.message.entity.OrderConvertorEntity;
@@ -30,6 +28,8 @@ public class OrderToWmsPrepareListener {
     @Autowired
     private TidWidRepository tidWidRepository;
     @Autowired
+    private OidHanghaoRepository oidHanghaoRepository;
+    @Autowired
     private ApplicationContext applicationContext;
 
 
@@ -48,14 +48,19 @@ public class OrderToWmsPrepareListener {
         //ID转换
         TidWidExample tidWidExample = new TidWidExample();
         tidWidExample.createCriteria().andTidEqualTo(tid);
-        String wid = "YZ"+GeneratorUtil.getFormatted(tidWidRepository.selectByExample(tidWidExample).get(0).getWid().longValue(),10,"","") ;
-        OrderConvertor orderConvertor = new OrderConvertor();
+        String wid =WidUtil.get(tidWidRepository.selectByExample(tidWidExample).get(0).getWid().longValue());
+        //
+        OidHanghaoExample oidHanghaoExample = new OidHanghaoExample();
+        oidHanghaoExample.createCriteria().andTidEqualTo(tid);
+        List<OidHanghao> oidHanghaos = oidHanghaoRepository.selectByExample(oidHanghaoExample);
+
         OrderConvertorEntity entity = new OrderConvertorEntity();
         entity.setTradeAddress(tradeAddress);
         entity.setTradeInfo(tradeInfo);
         entity.setTradeItems(tradeItems);
         entity.setWid(wid);
-        OrderEntity orderEntity = orderConvertor.toBean(entity);
+        entity.setOidHanghaos(oidHanghaos);
+        OrderEntity orderEntity = OrderConvertor.toBean(entity);
         applicationContext.publishEvent(new OrderToWmsEvent(this, orderEntity));
     }
 }

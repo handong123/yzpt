@@ -33,6 +33,8 @@ public class OrderCreateServiceImpl implements OrderCreateService {
     @Autowired
     private TidWidRepository tidWidRepository;
     @Autowired
+    private OidHanghaoRepository oidHanghaoRepository;
+    @Autowired
     private ApplicationContext applicationContext;
 
     @Override
@@ -246,14 +248,28 @@ public class OrderCreateServiceImpl implements OrderCreateService {
      */
     private void saveOrderItem(YouzanTradeGetResult.StructurizationTradeItemDetail[] orders, String tid) {
         List<TradeItem> tradeItems = new ArrayList<TradeItem>();
+        List<OidHanghao> oidHanghaos = new ArrayList<>();
+        int num = 1;
         for (YouzanTradeGetResult.StructurizationTradeItemDetail order : orders) {
             TradeItem tradeItem = new TradeItem();
             item(order, tradeItem);
             tradeItem.setTid(tid);
             tradeItems.add(tradeItem);
+
+            OidHanghao oidHanghao = new OidHanghao();
+            oidHanghao.setTid(tid);
+            oidHanghao.setOid(order.getOid());
+            oidHanghao.setHanghao(String.valueOf(num));
+            oidHanghaos.add(oidHanghao);
+
+            num = num + 1;
         }
         for (TradeItem tradeItem : tradeItems) {
-            tradeItemRepository.insert(tradeItem);
+            tradeItemRepository.insertSelective(tradeItem);
+        }
+
+        for (OidHanghao oidHanghao : oidHanghaos) {
+            oidHanghaoRepository.insertSelective(oidHanghao);
         }
     }
 

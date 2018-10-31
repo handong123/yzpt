@@ -52,5 +52,6 @@ public class LogisticsOnlineConfirmServiceImpl implements LogisticsOnlineConfirm
             log.info("----上传物流信息失败：-----" + response.getErrorResponse());
         }
 
+
     }
 }
