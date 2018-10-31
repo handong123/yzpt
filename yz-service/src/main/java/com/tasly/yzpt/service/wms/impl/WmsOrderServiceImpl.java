@@ -3,6 +3,7 @@ package com.tasly.yzpt.service.wms.impl;
 import com.tasly.yzpt.common.yzEnum.SendWmsEnum;
 import com.tasly.yzpt.repository.message.TradeWmsRepository;
 import com.tasly.yzpt.repository.message.entity.TradeWms;
+import com.tasly.yzpt.service.message.TradeWmsService;
 import com.tasly.yzpt.service.message.entity.OrderEntity;
 import com.tasly.yzpt.service.wms.WMSSendWebserviceUtil;
 import com.tasly.yzpt.service.wms.WmsOrderService;
@@ -24,6 +25,8 @@ public class WmsOrderServiceImpl implements WmsOrderService {
 
     @Autowired
     TradeWmsRepository tradeWmsRepository;
+    @Autowired
+    TradeWmsService tradeWmsService;
 
     @Override
     public void sendToWmsOrder(OrderEntity orderEntity) {
@@ -41,7 +44,7 @@ public class WmsOrderServiceImpl implements WmsOrderService {
             tradeWms.setTid(orderEntity.getDanjNo());
             tradeWms.setStatus(SendWmsEnum.SEND_WMS.getStatus());
             tradeWms.setSendTime(new Date());
-            tradeWmsRepository.insert(tradeWms);
+            tradeWmsService.insert(tradeWms);
         }catch (Exception e){
             log.error("订单下发wms失败", e);
         }

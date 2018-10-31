@@ -7,4 +7,6 @@ public class WidUtil {
     public static String get(Long id) {
         return "YZ" + GeneratorUtil.getFormatted(id.longValue(), 10, "", "");
     }
+
+
 }
