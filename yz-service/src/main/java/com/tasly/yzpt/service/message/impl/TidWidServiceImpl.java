@@ -4,7 +4,9 @@ import com.tasly.yzpt.repository.message.TidWidRepository;
 import com.tasly.yzpt.repository.message.entity.TidWid;
 import com.tasly.yzpt.repository.message.entity.TidWidExample;
 import com.tasly.yzpt.service.message.TidWidService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -12,6 +14,8 @@ import java.util.List;
 /**
  * Created by Talsy_xiashengxin on 2018/10/31.
  */
+@Service
+@Slf4j
 public class TidWidServiceImpl implements TidWidService {
 
     @Autowired

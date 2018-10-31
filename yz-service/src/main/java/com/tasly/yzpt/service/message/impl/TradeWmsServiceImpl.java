@@ -5,11 +5,15 @@ import com.tasly.yzpt.repository.message.TradeWmsRepository;
 import com.tasly.yzpt.repository.message.entity.TradeWms;
 import com.tasly.yzpt.repository.message.entity.TradeWmsExample;
 import com.tasly.yzpt.service.message.TradeWmsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by Talsy_xiashengxin on 2018/10/31.
  */
+@Service
+@Slf4j
 public class TradeWmsServiceImpl implements TradeWmsService {
 
     @Autowired

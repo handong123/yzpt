@@ -28,7 +28,7 @@ public class SoapConfig {
     @Bean
     public Endpoint endpoint() {
         EndpointImpl endpoint = new EndpointImpl(bus, productService);
-        endpoint.publish("/ProductService");
+        endpoint.publish("/WMSService");
         return endpoint;
     }
 }
