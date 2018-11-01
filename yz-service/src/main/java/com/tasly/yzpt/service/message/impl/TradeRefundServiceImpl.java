@@ -5,6 +5,7 @@ import com.tasly.yzpt.repository.message.TradeRefundRepository;
 import com.tasly.yzpt.repository.message.entity.TradeRefund;
 import com.tasly.yzpt.service.message.TradeRefundService;
 import com.tasly.yzpt.service.message.entity.CancelOrderEntity;
+import com.tasly.yzpt.service.message.entity.TradeRefundEntity;
 import com.youzan.open.sdk.client.auth.Token;
 import com.youzan.open.sdk.client.core.DefaultYZClient;
 import com.youzan.open.sdk.client.core.YZClient;
@@ -30,13 +31,13 @@ public class TradeRefundServiceImpl implements TradeRefundService {
      */
     @Override
     @Transactional
-    public void refuse(CancelOrderEntity cancelOrderEntity) {
-        TradeRefund tradeRefund = tradeRefundRepository.selectByPrimaryKey(cancelOrderEntity.getRefundId());
+    public void refuse(TradeRefundEntity entity) {
+        TradeRefund tradeRefund = tradeRefundRepository.selectByPrimaryKey(entity.getRefundId());
 
         YZClient client = new DefaultYZClient(new Token(YZToken.getToken())); //new Sign(appKey, appSecret)
         YouzanTradeRefundRefuseParams youzanTradeRefundRefuseParams = new YouzanTradeRefundRefuseParams();
 
-        youzanTradeRefundRefuseParams.setRemark(cancelOrderEntity.getMessage());
+        youzanTradeRefundRefuseParams.setRemark(entity.getMessage());
         youzanTradeRefundRefuseParams.setRefundId(tradeRefund.getRefundId());
         youzanTradeRefundRefuseParams.setVersion(Long.getLong(tradeRefund.getVersion()));
 
@@ -52,8 +53,8 @@ public class TradeRefundServiceImpl implements TradeRefundService {
      */
     @Override
     @Transactional
-    public void agree(CancelOrderEntity cancelOrderEntity) {
-        TradeRefund tradeRefund = tradeRefundRepository.selectByPrimaryKey(cancelOrderEntity.getRefundId());
+    public void agree(TradeRefundEntity entity) {
+        TradeRefund tradeRefund = tradeRefundRepository.selectByPrimaryKey(entity.getRefundId());
 
         YZClient client = new DefaultYZClient(new Token(YZToken.getToken())); //new Sign(appKey, appSecret)
         YouzanTradeRefundAgreeParams youzanTradeRefundAgreeParams = new YouzanTradeRefundAgreeParams();

@@ -1,10 +1,10 @@
 package com.tasly.yzpt.service.message;
 
-import com.tasly.yzpt.service.message.entity.CancelOrderEntity;
+import com.tasly.yzpt.service.message.entity.TradeRefundEntity;
 
 public interface TradeRefundService {
 
-    void refuse(CancelOrderEntity cancelOrderEntity);
+    void refuse(TradeRefundEntity entity);
 
-    void agree(CancelOrderEntity cancelOrderEntity);
+    void agree(TradeRefundEntity entity);
 }
