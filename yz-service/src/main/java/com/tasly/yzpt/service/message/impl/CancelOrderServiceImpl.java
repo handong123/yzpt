@@ -13,7 +13,7 @@ import com.tasly.yzpt.service.message.CancelOrderService;
 import com.tasly.yzpt.service.message.convert.TradeRefundConvertor;
 import com.tasly.yzpt.service.message.entity.CancelOrderEntity;
 import com.tasly.yzpt.service.message.entity.CancelOrderItemEntity;
-import com.youzan.open.sdk.gen.v3_0_0.model.YouzanTradeRefundGetResult;
+import com.tasly.yzpt.common.entity.Trade.TradeRefundGetResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -47,7 +47,7 @@ public class CancelOrderServiceImpl implements CancelOrderService {
     @Transactional
     public void refundBuyerCreated(String msg) {
         log.info("refundBuyerCreated param:" + msg);
-        YouzanTradeRefundGetResult result = JSON.parseObject(msg, YouzanTradeRefundGetResult.class);
+        TradeRefundGetResult result = JSON.parseObject(msg, TradeRefundGetResult.class);
         //保存申请退款订单信息
         TradeRefund tradeRefund = TradeRefundConvertor.toBean(result);
         tradeRefundRepository.insertSelective(tradeRefund);

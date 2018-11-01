@@ -1,6 +1,7 @@
 package com.tasly.yzpt.service.message.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.tasly.yzpt.common.entity.LogisticsOnline.Response;
 import com.tasly.yzpt.common.token.YZToken;
 import com.tasly.yzpt.common.yzEnum.ExpressEnum;
 import com.tasly.yzpt.service.message.LogisticsOnlineConfirmService;
@@ -10,8 +11,6 @@ import com.youzan.open.sdk.client.core.DefaultYZClient;
 import com.youzan.open.sdk.client.core.YZClient;
 import com.youzan.open.sdk.gen.v3_0_0.api.YouzanLogisticsOnlineConfirm;
 import com.youzan.open.sdk.gen.v3_0_0.model.YouzanLogisticsOnlineConfirmParams;
-import com.youzan.open.sdk.gen.v3_0_0.model.YouzanLogisticsOnlineConfirmResult;
-import com.youzan.open.sdk.model.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,14 +43,9 @@ public class LogisticsOnlineConfirmServiceImpl implements LogisticsOnlineConfirm
         String result = client.execute(youzanLogisticsOnlineConfirm);
         Response response = JSON.parseObject(result, Response.class);
         if (response.getErrorResponse() == null) {
-            YouzanLogisticsOnlineConfirmResult confirmResult = JSON.parseObject(response.getResponse().toString(),
-                    YouzanLogisticsOnlineConfirmResult.class);
-            Boolean isSuccess = confirmResult.getIsSuccess();
-            log.info("----上传物流信息成功----");
+            log.info("----上传物流信息成功----" + params + "------" + response.getIsSuccess());
         } else {
-            log.info("----上传物流信息失败：-----" + response.getErrorResponse());
+            log.info("----上传物流信息失败：-----" + params + "------" + response.getErrorResponse());
         }
-
-
     }
 }
