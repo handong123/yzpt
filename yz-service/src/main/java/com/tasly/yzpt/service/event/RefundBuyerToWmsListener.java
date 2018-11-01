@@ -21,6 +21,6 @@ public class RefundBuyerToWmsListener {
     @EventListener
     @Async
     public void listener(RefundBuyerToWmsEvent event) {
-        wmsOrderService.sendCancelToWmsOrder(event.getEntity());
+        wmsOrderService.cancelToWmsOrder(event.getEntity());
     }
 }
