@@ -1,6 +1,5 @@
 package com.tasly.yzpt.webservices.impl;
 
-import com.google.common.collect.Lists;
 import com.tasly.yzpt.common.util.JsonUtil;
 import com.tasly.yzpt.repository.message.entity.TidWid;
 import com.tasly.yzpt.service.message.LogisticsOnlineConfirmService;
@@ -40,16 +39,34 @@ public class ProductServiceImpl implements ProductService {
     LogisticsOnlineConfirmService logisticsOnlineConfirmService;
 
     @Override
+    /**
+     * 出库和入库回传
+     */
     public void acceptProductInfoFromWMS(@WebParam(name = "INFDATA") INFDATA infoData) {
         log.info("WMS推送商品主数据:" + JsonUtil.bean2Json(infoData));
-        DATA result = new DATA();
-        List<RETDATA> retdataList = Lists.newArrayList();
-        RETDATA retdata = new RETDATA();
-        retdataList.add(retdata);
-        result.setRetdata(retdataList);
-
+//        DATA result = new DATA();
+//        List<RETDATA> retdataList = Lists.newArrayList();
+//        RETDATA retdata = new RETDATA();
+//        retdataList.add(retdata);
+//        result.setRetdata(retdataList);
+//        INFDATA infoData
+        //出库回传出库
+        if("WMS24".equals(infoData.getBASEINFO().getSERVICENAME())){
+            System.out.printf("出库回传出库"+infoData.getMESSAGE().getARRAYSTRING().getInfmsg());
+        }
+        //出库取消的
+        if("WMS32".equals(infoData.getBASEINFO().getSERVICENAME())){
+            System.out.printf("出库取消的"+infoData.getMESSAGE().getARRAYSTRING().getInfmsg());
+        }
     }
 
+
+
+
+    /**
+     * 订单下传回调物流信息
+     * @param senddata
+     */
     @Override
     public void sendBackFromWMS(@WebParam(name = "SENDDATA") SENDDATA senddata) {
         log.info("WMS推送发货商品主数据:" + JsonUtil.bean2Json(senddata));
@@ -71,17 +88,20 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    /**
+     * 取消订单 回调信息
+     * @param canneldata
+     */
     @Override
     public void cannelBackFromWMS(@WebParam(name = "CANNELDATA") CANNELDATA canneldata) {
         log.info("WMS推送取消商品主数据:" + JsonUtil.bean2Json(canneldata));
+        List<CANNELRETDATA> cannelretdataList = canneldata.getCannelRetdata();
+        if(!CollectionUtils.isEmpty(cannelretdataList)){
+            for(CANNELRETDATA cannelretdata : cannelretdataList){
+
+            }
+        }
 
     }
 
-    public static void main(String[] args) {
-        String str = "AB00001";
-        Integer str1 = Integer.valueOf(str.substring(2));
-        System.out.printf(str1.toString());
-
-
-    }
 }
