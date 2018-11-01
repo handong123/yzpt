@@ -1,5 +1,6 @@
 package com.tasly.yzpt.service.wms;
 
+import com.tasly.yzpt.service.message.entity.CancelOrderEntity;
 import com.tasly.yzpt.service.message.entity.OrderEntity;
 
 /**
@@ -18,7 +19,7 @@ public interface WmsOrderService {
      * 订单取消(没发货)
      * @param object
      */
-    void cancelToWmsOrder(Object object);
+    void cancelToWmsOrder(CancelOrderEntity object);
 
     /**
      * 订单取消(已经发货)
