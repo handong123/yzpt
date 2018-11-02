@@ -1,8 +1,7 @@
 package com.tasly.yzpt.webservices;
 
 import com.tasly.yzpt.service.wms.send.INFDATA;
-import com.tasly.yzpt.webservices.dto.CANNELDATA;
-import com.tasly.yzpt.webservices.dto.SENDDATA;
+
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;

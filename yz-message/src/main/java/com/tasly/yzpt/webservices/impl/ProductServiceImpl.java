@@ -76,14 +76,14 @@ public class ProductServiceImpl implements ProductService {
             WmsBodyWrapper bodyWrapper = mapper.readValue(infoMsg, WmsBodyWrapper.class);
             List<WmsOrderBo> cannelretdataList = bodyWrapper.getList();
             //去掉前面2个YZ字符串
-            Integer wid = Integer.valueOf(bodyWrapper.getDANJ_NO().substring(2));
+            Integer wid = Integer.valueOf(bodyWrapper.getYEWDJ_NO().substring(2));
             //wid转化tid
             TidWid tidWid = tidWidService.selectTidWid(wid);
             List<TradeLogistics> tradeLogisticss = Lists.newArrayList();
             if(!CollectionUtils.isEmpty(cannelretdataList)){
                 for(WmsOrderBo wmsOrderBo:cannelretdataList){
                     //查询通过TID和行号查询oidhanghao对象
-                    OidHanghao oidHanghao =oidHangHaoService.SelectOidHanghaoByTidAndHanghao(tidWid.getTid(),wmsOrderBo.getHANGHAO());
+                    OidHanghao oidHanghao =oidHangHaoService.SelectOidHanghaoByTidAndHanghao(tidWid.getTid(),wmsOrderBo.getHANGHAO_YW());
                     //保存到本地物流信息
                     TradeLogistics tradeLogistics = new TradeLogistics();
                     tradeLogistics.setTid(tidWid.getTid());

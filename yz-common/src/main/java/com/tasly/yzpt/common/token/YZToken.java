@@ -2,6 +2,7 @@ package com.tasly.yzpt.common.token;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.tasly.yzpt.common.config.KeystoneConfig;
 import com.tasly.yzpt.common.keystone.YZKeystone;
 import com.youzan.open.sdk.client.oauth.model.OAuthToken;
 import com.youzan.open.sdk.util.http.DefaultHttpClient;

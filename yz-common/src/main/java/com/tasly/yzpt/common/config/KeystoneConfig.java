@@ -1,4 +1,4 @@
-package com.tasly.yzpt.common.token;
+package com.tasly.yzpt.common.config;
 
 import com.tasly.yzpt.common.keystone.YZKeystone;
 import org.springframework.beans.factory.annotation.Value;
