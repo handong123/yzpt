@@ -64,33 +64,27 @@ public class LogisticsOnlineConfirmServiceImpl implements LogisticsOnlineConfirm
     @Override
     public void confirm(List<TradeLogistics> TradeLogisticsList) {
 
-        List<YouzanLogisticsOnlineConfirmParams> paramList = new ArrayList<>();
-        for (TradeLogistics tradeLogistics : TradeLogisticsList) {
-            YouzanLogisticsOnlineConfirmParams youzanLogisticsOnlineConfirmParams = new YouzanLogisticsOnlineConfirmParams();
-            // 交易订单号
-            youzanLogisticsOnlineConfirmParams.setTid(tradeLogistics.getTid());
-            // 物流公司编号，可以通过请求 youzan.logistics.express.get 该接口获得  默认韵达
-            youzanLogisticsOnlineConfirmParams.setOutStype(tradeLogistics.getLogisticsCode());
-            // 快递单号（具体一个物流公司的真实快递单号）
-            youzanLogisticsOnlineConfirmParams.setOutSid(tradeLogistics.getLogisticsNumber());
-            youzanLogisticsOnlineConfirmParams.setOids(tradeLogistics.getOid());
-            log.info("----上传物流信息----tid = " + youzanLogisticsOnlineConfirmParams.getOuterTid() + "oid=" + youzanLogisticsOnlineConfirmParams.getOids() + "code=" + youzanLogisticsOnlineConfirmParams.getOutStype() + "number=" + youzanLogisticsOnlineConfirmParams.getOutSid());
-            paramList.add(youzanLogisticsOnlineConfirmParams);
-        }
-
+        TradeLogistics tradeLogistics = TradeLogisticsList.get(0);
+        YouzanLogisticsOnlineConfirmParams youzanLogisticsOnlineConfirmParams = new YouzanLogisticsOnlineConfirmParams();
+        // 交易订单号
+        youzanLogisticsOnlineConfirmParams.setTid(tradeLogistics.getTid());
+        // 物流公司编号，可以通过请求 youzan.logistics.express.get 该接口获得  默认韵达
+        youzanLogisticsOnlineConfirmParams.setOutStype(tradeLogistics.getLogisticsCode());
+        // 快递单号（具体一个物流公司的真实快递单号）
+        youzanLogisticsOnlineConfirmParams.setOutSid(tradeLogistics.getLogisticsNumber());
 
         YZClient client = new DefaultYZClient(new Token(YZToken.getToken()));
-        for (YouzanLogisticsOnlineConfirmParams youzanLogisticsOnlineConfirmParams : paramList) {
-            YouzanLogisticsOnlineConfirm youzanLogisticsOnlineConfirm = new YouzanLogisticsOnlineConfirm();
-            youzanLogisticsOnlineConfirm.setAPIParams(youzanLogisticsOnlineConfirmParams);
-            String result = client.execute(youzanLogisticsOnlineConfirm);
 
-            Response response = JSON.parseObject(result, Response.class);
-            if (response.getErrorResponse() == null) {
-                log.info("----上传物流信息成功----" + youzanLogisticsOnlineConfirmParams.getOuterTid() + "|" + youzanLogisticsOnlineConfirmParams.getOids() + "|" + youzanLogisticsOnlineConfirmParams.getOutStype() + "|" + youzanLogisticsOnlineConfirmParams.getOutSid() + "------" + response.getIsSuccess().toString());
-            } else {
-                log.info("----上传物流信息失败：-----" + youzanLogisticsOnlineConfirmParams.getOuterTid() + "|" + youzanLogisticsOnlineConfirmParams.getOids() + "|" + youzanLogisticsOnlineConfirmParams.getOutStype() + "|" + youzanLogisticsOnlineConfirmParams.getOutSid() + "------" + response.getErrorResponse());
-            }
+        YouzanLogisticsOnlineConfirm youzanLogisticsOnlineConfirm = new YouzanLogisticsOnlineConfirm();
+        youzanLogisticsOnlineConfirm.setAPIParams(youzanLogisticsOnlineConfirmParams);
+        String result = client.execute(youzanLogisticsOnlineConfirm);
+
+        Response response = JSON.parseObject(result, Response.class);
+        if (response.getErrorResponse() == null) {
+            log.info("----上传物流信息成功----" + youzanLogisticsOnlineConfirmParams.getOuterTid() + "|" + youzanLogisticsOnlineConfirmParams.getOids() + "|" + youzanLogisticsOnlineConfirmParams.getOutStype() + "|" + youzanLogisticsOnlineConfirmParams.getOutSid() + "------" + response.getIsSuccess().toString());
+        } else {
+            log.info("----上传物流信息失败：-----" + youzanLogisticsOnlineConfirmParams.getOuterTid() + "|" + youzanLogisticsOnlineConfirmParams.getOids() + "|" + youzanLogisticsOnlineConfirmParams.getOutStype() + "|" + youzanLogisticsOnlineConfirmParams.getOutSid() + "------" + response.getErrorResponse());
         }
+
     }
 }
