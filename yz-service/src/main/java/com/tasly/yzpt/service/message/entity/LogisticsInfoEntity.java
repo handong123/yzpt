@@ -9,7 +9,7 @@ public class LogisticsInfoEntity {
      */
    private String outStype;
     /**
-     * 快递编号
+     * 有赞快递编号  1-STO 4-YUNDA 25-ZJS  有赞编号为 1 4 25
      */
     private String outSid;
     /**
