@@ -21,14 +21,4 @@ public interface ProductService {
     @WebMethod
     void acceptProductInfoFromWMS(@WebParam(name = "INFDATA") INFDATA INFDATA);
 
-
-    @WebMethod
-    void sendBackFromWMS(@WebParam(name = "SENDDATA") SENDDATA SENDDATA);
-
-
-    @WebMethod
-    void cannelBackFromWMS(@WebParam(name = "CANNELDATA") CANNELDATA CANNELDATA);
-
-
-
 }
