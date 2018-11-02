@@ -3,17 +3,17 @@ package com.tasly.yzpt.service.message.entity;
 import lombok.Data;
 
 @Data
-public class LogisticsOnlineConfirmParams {
-    /**
-     * 交易编号
-     */
-   String tid;
+public class LogisticsInfoEntity {
     /**
      * 快递公司编号
      */
-   String outStype;
+   private String outStype;
     /**
      * 快递编号
      */
-   String outSid;
+    private String outSid;
+    /**
+     * 有赞行编号
+     */
+    private String oid;
 }
