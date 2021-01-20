@@ -33,7 +33,7 @@
         <mysql.version>5.1.47</mysql.version>
         <mybatis.spring.boot.version>1.3.2</mybatis.spring.boot.version>
         <lombok.version>1.16.6</lombok.version>
-        <jackson.version>2.9.7</jackson.version>
+        <jackson.version>2.12.1</jackson.version>
         <swagger2.version>2.7.0</swagger2.version>
         <spring.boot>2.0.4.RELEASE</spring.boot>
         <yz.jdk.version>2.0.2</yz.jdk.version>
